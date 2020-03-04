@@ -76,8 +76,36 @@ def Table_Maker(child, vector):
         Table_Maker(child.left_child, Add_0(vector))
         Table_Maker(child.right_child, Add_1(vector))
     if child.left_child is None:
-        print(child.letter, vector)
         Code_Table.append(Huf_El(child.letter, vector))
 
 
 Table_Maker(Table[-1], vec)
+
+
+free_bits = -1
+Code_Mass = []
+
+f = open('C:\ForProg\qqq.txt', 'r')
+for char in f.read():
+    i = 0
+    while char != Code_Table[i].letter:
+        i = i + 1
+    for q in Code_Table[i].code:
+        if free_bits == -1:
+            Code_Mass.append(0)
+            free_bits = 7
+        if q == '1':
+            Code_Mass[-1] = Code_Mass[-1] | (1 << free_bits)
+            free_bits = free_bits - 1
+        else:
+            free_bits = free_bits - 1
+
+f.close()
+#print(bin(Code_Mass[0]))
+#print(bin(Code_Mass[1]))
+#print(bin(Code_Mass[2]))
+#print(bin(Code_Mass[3]))
+#print(bin(Code_Mass[4]))
+
+for t in range(len(Code_Mass)):
+    print(bin(Code_Mass[t]))
