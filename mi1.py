@@ -86,6 +86,7 @@ def Table_Maker(child, vector):
     if child.left_child is None:
         Code_Table.append(Huf_El(child.letter, vector))
 
+
 """строим табличку с кодами символов"""
 
 Table_Maker(Table[-1], vec)
@@ -94,6 +95,8 @@ free_bits = -1
 Code_Mass = []
 
 """кодируем текст"""
+
+FB = 0
 
 f = open('C:\ForProg\qqq.txt', 'r')
 for char in f.read():
@@ -104,11 +107,14 @@ for char in f.read():
         if free_bits == -1:
             Code_Mass.append(0)
             free_bits = 7
+            FB = free_bits
         if q == '1':
             Code_Mass[-1] = Code_Mass[-1] | (1 << free_bits)
             free_bits = free_bits - 1
+            FB = free_bits
         else:
             free_bits = free_bits - 1
+            FB = free_bits
 
 f.close()
 
@@ -171,17 +177,23 @@ obj = Decode_Table[-1]
 """декодирование с записью"""
 
 f = open('C:\ForProg\decode.txt', 'a')
+r = 0
+y = 0
 
 for i in range(len(Code_Mass)):
-    for j in range(8):
-        a = bin(Code_Mass[i] << j & 2 ** (7 - j))
-        if a != bin(0):
-            obj = obj.right_child
-            if obj.right_child is None:
+    if i == len(Code_Mass)-1:
+        n = 8 - FB
+    else:
+        n = 8
+    for j in range(n):
+        a = Code_Mass[i] >> (7 - j) & 1
+        if a == 0:
+            obj = obj.left_child
+            if obj.left_child is None:
                 f.write(obj.letter)
                 obj = Decode_Table[-1]
-        if a == bin(0):
-            obj = obj.left_child
+        if a == 1:
+            obj = obj.right_child
             if obj.right_child is None:
                 f.write(obj.letter)
                 obj = Decode_Table[-1]
