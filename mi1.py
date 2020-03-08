@@ -1,3 +1,6 @@
+import pickle
+
+
 class Huf_El(object):
 
     def __init__(self, letter, code):
@@ -46,9 +49,9 @@ for i in range(len(Table)):
             Table[j] = Table[j + 1]
             Table[j + 1] = z
 
-Table_Copy = Table.copy()
-
 i = 0
+
+Table_Copy = Table.copy()
 
 """строим дерево"""
 
@@ -98,6 +101,8 @@ Code_Mass = []
 
 FB = 0
 
+"""глупо, посмотреть,как можно апнуть"""
+
 f = open('C:\ForProg\qqq.txt', 'r')
 for char in f.read():
     i = 0
@@ -118,17 +123,22 @@ for char in f.read():
 
 f.close()
 
-"""шапка"""
+"запись шапки в бинарник"
+Cap = "user.dat"
 
-f = open('C:\ForProg\decode.txt', 'w')
+with open(Cap, "wb") as file:
+    i = 0
+    pickle.dump(Table_Copy, file)
+    pickle.dump(Code_Mass, file)
 
-for i in range(len(Table_Copy)):
-    f.write(str(Table_Copy[i].letter))
-    f.write(str(Table_Copy[i].Hz))
-    f.write('\n')
-
-f.close()
-
+"считывание шапки и массива из бинарника"
+with open(Cap, "rb") as file:
+    obj_1 = pickle.load(file)
+    obj_2 = pickle.load(file)
+    for el in obj_1:
+        print(el.letter, "-", el.Hz)
+    for el2 in obj_2:
+        print(el2)
 """\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"""
 
 f = open('C:\ForProg\decode.txt', 'r')
@@ -181,7 +191,7 @@ r = 0
 y = 0
 
 for i in range(len(Code_Mass)):
-    if i == len(Code_Mass)-1:
+    if i == len(Code_Mass) - 1:
         n = 8 - FB
     else:
         n = 8
