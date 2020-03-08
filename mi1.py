@@ -38,6 +38,9 @@ for char in f.read():
             Table.append(Node(char, 1, None, None))
             break
 
+for i in range(len(Table)):
+    print(Table[i].letter, "-", Table[i].Hz)
+
 f.close()
 
 """сортируем табличку"""
@@ -50,6 +53,7 @@ for i in range(len(Table)):
             Table[j + 1] = z
 
 i = 0
+
 
 Table_Copy = Table.copy()
 
@@ -123,7 +127,7 @@ for char in f.read():
 
 f.close()
 
-"запись шапки в бинарник"
+"запись шапки и массива в бинарник"
 Cap = "user.dat"
 
 with open(Cap, "wb") as file:
@@ -131,45 +135,25 @@ with open(Cap, "wb") as file:
     pickle.dump(Table_Copy, file)
     pickle.dump(Code_Mass, file)
 
+"это был как бы кодер..."
+
+"""\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"""
+
+"это что-то типа декодера, вот..."
+
 "считывание шапки и массива из бинарника"
+Decode_Table = []
+
 with open(Cap, "rb") as file:
     obj_1 = pickle.load(file)
     obj_2 = pickle.load(file)
     for el in obj_1:
-        print(el.letter, "-", el.Hz)
-    for el2 in obj_2:
-        print(el2)
-"""\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"""
-
-f = open('C:\ForProg\decode.txt', 'r')
-
-i = 0
-v = 1
-a = 1
-
-Decode_Table = []
-
-"""читаем шапку"""
-
-for char in f.read():
-    if char == '\n':
-        v = 1
-        i = i + 1
-        a = 1
-    if char != '\n':
-        if v == 0:
-            el = a * int(char)
-            Decode_Table[i].Hz = Decode_Table[i].Hz + el
-            a = a * 10
-        if v == 1:
-            Decode_Table.append(Node(char, 0, None, None))
-            v = 0
-
+        Decode_Table.append(el)
 i = 0
 
 """дерево"""
 
-while i in range(len(Table) - 1):
+while i in range(len(Decode_Table) - 1):
     obj = Node(None, Decode_Table[i].Hz + Decode_Table[i + 1].Hz, Decode_Table[i], Decode_Table[i + 1])
     Decode_Table.append(obj)
     k = len(Decode_Table) - 1
