@@ -21,21 +21,27 @@ class Node(object):  # класс для дерева
 
 """читаем текст и делаем табличку"""
 
-adress = 'C:\ForProg\www.txt'  # input()
+adress = 'C:\ForProg\qqq.txt'  # input()
 
 Table = [Node(None, 0, None, None)]
+i = 0
 
 f = open(adress, 'r')
 for char in f.read():
+    i += 1
+    if char == "¤" or char == "©":
+        print(i)
     for j in range(len(Table)):
         if char == Table[j].letter:
             Table[j].Hz = Table[j].Hz + 1
             break
         if j == len(Table) - 1:
+            print("new = ", char)
             Table.append(Node(char, 1, None, None))
             break
 
 f.close()
+print("END")
 
 """сортируем табличку"""
 
@@ -112,8 +118,10 @@ for i in range(len(Table)):
 i = 0
 
 Dictionary = dict()
+print("DICTIONARY IS:")
 for i in range(len(Code_Table)):
     Dictionary[Code_Table[i].letter] = Code_Table[i].code
+    print(Code_Table[i].letter, " - ", Code_Table[i].code)
 
 aspect_ratio = all_bytes / Table[-1].Hz
 
@@ -126,8 +134,11 @@ Code_Mass = []
 
 FB = 0
 
+counter = 0
+
 f = open(adress, 'r')
 for char in f.read():
+    counter += 1
     for q in Dictionary[char]:
         if free_bits == -1:
             Code_Mass.append(0)
@@ -143,6 +154,7 @@ for char in f.read():
 
 f.close()
 
+
 "запись шапки и массива в бинарник"
 Cap = "C:\\ForProg\\user.dat"
 
@@ -154,10 +166,8 @@ for i in range(len(Table_letter_Copy)):
         counter = counter + 1
 
 f = open(Cap, 'wb')
-
 w = struct.pack('B', counter)  # struct.pack - для представления числа как байт
 #  информацию о struct брал здесь : https://tirinox.ru/python-struct/
-print(w)
 f.write(w)
 
 for i in range(len(Table_letter_Copy)):
@@ -178,3 +188,8 @@ f.write(w)
 
 f.close()
 """C:\ForProg\qqq.txt"""
+
+
+# 3202150
+
+# 3202551
