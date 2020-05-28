@@ -22,8 +22,8 @@ Decode_Table = []
 Cap = "C:\\ForProg\\user.dat"
 f = open(Cap, 'rb')
 a = f.read(1)
-print(a)
 s = struct.unpack('B', a)
+print(s)
 print(s)
 for i in range(s[0]):
     code = struct.unpack('B', f.read(1))
@@ -31,15 +31,12 @@ for i in range(s[0]):
     z = f.read(4)
     numb = struct.unpack('I', z)
     Decode_Table.append(Node(let, numb[0], None, None))
-    print(Decode_Table[i].letter, " - ", Decode_Table[i].Hz)
 
-for i in range(len(Decode_Table)):
-    print(Decode_Table[i].letter, " - ", Decode_Table[i].Hz)
+# print(Decode_Table.l, " - ", Decode_Table.Hz)
+
 
 Code_Mass = f.read()
 FB = Code_Mass[-1]
-# for i in range(len(Code_Mass)):
-#   print(Code_Mass[i])
 
 i = 0
 
