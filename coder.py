@@ -21,27 +21,39 @@ class Node(object):  # класс для дерева
 
 """читаем текст и делаем табличку"""
 
-adress = 'C:\ForProg\qqq.txt'  # input()
+adress = 'C:\ForProg\www.txt'  # input()
 
 Table = [Node(None, 0, None, None)]
 i = 0
 
 f = open(adress, 'r')
+
+TXT = ""
+
 for char in f.read():
-    i += 1
-    if char == "¤" or char == "©":
-        print(i)
+    if ord(char) <= 255:
+        TXT += char
+
+f.close()
+f = open(adress, 'w')
+f.write(TXT)
+f.close()
+
+f = open(adress, 'r')
+
+for char in f.read():
     for j in range(len(Table)):
         if char == Table[j].letter:
             Table[j].Hz = Table[j].Hz + 1
             break
         if j == len(Table) - 1:
-            print("new = ", char)
+           # print("new = ", char)
             Table.append(Node(char, 1, None, None))
             break
 
 f.close()
-print("END")
+
+print("end")
 
 """сортируем табличку"""
 
@@ -52,13 +64,19 @@ for i in range(len(Table)):
             Table[j] = Table[j + 1]
             Table[j + 1] = z
 
+for i in range(len(Table)):
+    print(Table[i].Hz, " - ", Table[i].letter)
+
 for i in range(len(Table)):  # попадал 32 символ ASCII, хз что это и откуда, удаляю его и не парюсь)))
     if Table[i].Hz == 0:
         del Table[i]
         break
 
+UNI_code = 0
+
 for i in range(len(Table)):
-    print(Table[i].letter, " - ", Table[i].Hz)
+    if ord(Table[i].letter) > 255:
+        UNI_code += 1
 
 i = 0
 Table_letter_Copy = []
@@ -121,7 +139,7 @@ Dictionary = dict()
 print("DICTIONARY IS:")
 for i in range(len(Code_Table)):
     Dictionary[Code_Table[i].letter] = Code_Table[i].code
-    print(Code_Table[i].letter, " - ", Code_Table[i].code)
+#    print(Code_Table[i].letter, " - ", Code_Table[i].code)
 
 aspect_ratio = all_bytes / Table[-1].Hz
 
@@ -173,11 +191,12 @@ f.write(w)
 for i in range(len(Table_letter_Copy)):
     p = ord(Table_letter_Copy[i])
     if p <= 255:
-        w = struct.pack('B', p)
+        w = struct.pack('B', ord(Table_letter_Copy[i]))
         f.write(w)
         w = struct.pack('I', Table_Hz_Copy[i])
         f.write(w)
-
+    else:
+        print(Table_letter_Copy[i], " - ", Table_Hz_Copy[i])
 i = 0
 for i in range(len(Code_Mass)):
     w = struct.pack('B', Code_Mass[i])
@@ -193,3 +212,8 @@ f.close()
 # 3202150
 
 # 3202551
+
+# 3 265 992 байт)
+# 3 265 962
+
+
